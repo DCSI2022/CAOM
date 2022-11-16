@@ -1,4 +1,4 @@
-# Standard Readme
+# CAOM: Change-Aware Online 3D Mapping with Heterogeneous Multi-Beam and Push-Broom LiDAR Point Clouds
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
