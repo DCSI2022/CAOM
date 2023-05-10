@@ -1,0 +1,41 @@
+<launch>
+
+    <!--- Sim Time -->
+    <param name="/use_sim_time" value="true" />
+
+    <node pkg="tf" type="static_transform_publisher" name="word2map_tf"  args="0 0 0 0 0 0 /base_link /map 1000" />
+
+    <rosparam file="$(find structural_mapping)/config/parameters.yaml" command="load"/>
+
+    <!--    <arg name="projfolder" default="/home/cyz/workspace/testData/yijiao"/>-->
+    <arg name="projfolder" default="/home/cyz/workspace/testData/playground"/>
+
+    <param name="projpath"  type="string" value="$(arg projfolder)/"/>
+
+    <arg name="showRviz" default="true" />
+    <group if="$(arg showRviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz"
+              args="-d $(find structural_mapping)/config/testmapping.rviz"/>
+    </group>
+
+    <!--- SplineLOAM -->
+    <node pkg="structural_mapping"   type="dataPreprocessing"    name="dataPreprocessing"   output="screen"/>
+    <node pkg="structural_mapping"   type="featureExtraction"    name="featureExtraction"   output="screen"/>
+    <node pkg="structural_mapping"   type="lineFitting"          name="lineFitting"   output="screen"/>
+    <node pkg="structural_mapping"   type="odomEstimation"       name="odomEstimation"   output="screen"/>
+
+    <node pkg="structural_mapping"   type="mappingWithReference"  name="mappingWithReference"   output="screen">
+<!--            <param name="ref_file"  type="string"   value="/home/cyz/workspace/testData/playground/mappingWithMLS/mls_roadaroundPlayground.pcd"/>-->
+<!--            <param name="ref_file"  type="string"   value="/home/cyz/workspace/testData/playground/mappingWithMLS/mls_2thCanteenCBD_DS.pcd"/>-->
+<!--            <param name="ref_file"  type="string"   value="/home/cyz/workspace/testData/playground/mappingWithMLS/mls_chekuRoad.pcd"/>-->
+            <param name="ref_file"  type="string"   value="/media/cyz/Seagate Basic/DATA/xinghulou_bag_tls/xinghubuilding_TLS.pcd"/>
+<!--            <param name="ref_file"  type="string"   value="/home/cyz/workspace/testData/playground/mappingWithMLS/mls_roadbehindLib_202111.pcd"/>-->
+    </node>
+
+<!--        <node pkg="structural_mapping"   type="graphOptimization"  name="graphOptimization"   output="screen"/>-->
+
+    <!--    <node pkg="rosbag" type="play" name="player" output="screen" args="&#45;&#45;clock $(arg projfolder)/20200107xinbubigloopPart1.bag &#45;&#45;topics /velodyne_points -r 0.05" />-->
+    <!--        <node pkg="rosbag" type="play" name="player" output="screen" args="&#45;&#45;clock $(arg projfolder)/20200107xinbubigloop.bag &#45;&#45;topics /velodyne_points -r 0.1" />-->
+    <!--    <node pkg="rosbag" type="play" name="player" output="screen" args="&#45;&#45;clock -k /home/joe/workspace/testData/yijiao/20190311yijiao.bag &#45;&#45;topics /velodyne_points -r 0.1" />-->
+
+</launch>

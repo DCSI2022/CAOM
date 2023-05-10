@@ -1,0 +1,71 @@
+dataPreprocessing:
+  labelGround: false
+  segmentCloud: false
+  cloudTopicName: /velodyne_points
+#  cloudTopicName: /range_cloud
+
+linefitting:
+  #  poseTopic: /aft_mapped
+  poseTopic: /aft_mapped_to_init
+  ds_map_leaf: 0.02
+  maxLineCloudSize: 60000
+  leafsize_perScanline: 0.1
+  minlinePtNum: 5  #
+  minlineLength: 0.6
+  filterEdge: true
+  clusterThre_row: 0.3 # image based cluster, in meters
+  clusterThre_col: 1.102 # ratio for adaptive threshold
+  breakThre: 1.06  # the threshold for the gap between neighbor in one scanline
+
+featureExtraction:
+  edgeThreshold: 0.2  # edge features
+
+odom:
+  odom_useOctomap: false
+  odom_octoFilterMap: false
+  odom_ds_leafsize: 0.15
+  odom_map_ds_leafsize: 0.25
+  odom_octomap_res: 0.2
+  odom_octomap_odd_thre: 0.4
+  odom_save_pose: true
+  odom_localize_mode: false
+  odom_localmapRadi: 80
+  useConstraintSphere: true
+
+mapOptiSpline:
+  useSurfels: true
+  labelMap: false  # label the correlated features (e.g. edge/surf) in map
+  # the ratio of new pts to judge bad registration (0.65 for 0.06m map resolution, 0.8 for 0.03m)
+  cloudoverlapRatio: 0.99
+  initRadiSurfel: 0.6  # radius to init surfel
+  numOfptInitSurfel: 10  # num of pts needed to init surfel
+  localmapDura: 20  # decide the size of map unit
+  timerWindowRatio: 1.3  # decide the size of local map
+  localmapResolu: 0.05  # the resolution of map
+  ds_leaf_mapping: 0.25  # feature downsample
+  searchRadi: 0.5  # feature search radius
+  annealfactor: 1.2  # from coarse to fine
+  splineNum: 5  # >= 5
+  slidingFrameNum: 3
+  optiIterations: 2
+  maxRangeMap: 50  # max range of pts in map
+  minLocalMapSize: 100000
+  maxLocalmapSize: 250000
+  splineT: 0  # type of Spline: 0 for default, 1 for CR-Spline, 2 for SophusSpline
+  useLocalBA: true  # use BALM for optimization
+
+mapOptiOri:
+  minDistKeyframe: 0.3
+
+mapOptiBacktracing:
+  winSize: 100
+
+graphOptimization:
+  useISAM: true
+  poseTopic: /
+  voxelres: 0.3
+  maxCorrDist_glo: 2.5
+  maxCorrDist_glo_refi: 0.5
+  maxCorrDist_loc: 0.5  # local registration thre
+
+# config file cant use 0.5f
